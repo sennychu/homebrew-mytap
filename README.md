@@ -6,11 +6,7 @@ Installation
 ------------
 
 * Debian or Ubuntu: `sudo apt-get install build-essential curl git ruby`
-<<<<<<< HEAD
-* `git clone https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew`
-=======
 * `git clone https://github.com/sennychu/linuxbrew.git ~/.linuxbrew`
->>>>>>> 36114401c7cb9e9ecdc2b18830defb92174a15c1
 * Add to your `.bashrc`:
 
  ```sh
