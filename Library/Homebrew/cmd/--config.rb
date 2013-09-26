@@ -130,7 +130,7 @@ module Homebrew extend self
   end
 
   def dump_verbose_config
-    puts "This linuxbrew Create By SennyChu." 
+    puts "==== This linuxbrew Create By SennyChu. ====" 
     puts "HOMEBREW_VERSION: #{HOMEBREW_VERSION}"
     puts "ORIGIN: #{origin}"
     puts "HEAD: #{head}"
