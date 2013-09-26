@@ -33,7 +33,8 @@ module Homebrew extend self
 
   def check_writable_install_location
     raise "Cannot write to #{HOMEBREW_CELLAR}" if HOMEBREW_CELLAR.exist? and not HOMEBREW_CELLAR.writable_real?
-    raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real? or HOMEBREW_PREFIX.to_s == '/usr/local'
+    # raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real? or HOMEBREW_PREFIX.to_s == '/usr/local'
+    raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real?
   end
 
   def check_xcode
@@ -65,8 +66,8 @@ module Homebrew extend self
   def perform_preinstall_checks
     check_ppc
     check_writable_install_location
-    check_xcode
-    check_macports
+    # check_xcode
+    # check_macports
     check_cellar
   end
 
