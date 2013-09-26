@@ -124,7 +124,6 @@ module Homebrew extend self
     puts "HEAD: #{head}"
     puts "HOMEBREW_PREFIX: #{HOMEBREW_PREFIX}"
     puts "HOMEBREW_CELLAR: #{HOMEBREW_CELLAR}"
-    puts "HOMEBREW_TEMP: #{HOMEBREW_TEMP}"
     puts hardware
     puts "OS X: #{MACOS_FULL_VERSION}-#{kernel}"
     puts "CLT: #{clt}" if clt
