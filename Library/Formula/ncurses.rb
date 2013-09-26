@@ -14,10 +14,7 @@ class Ncurses < Formula
 
     system "./configure", "--disable-debug",
                           "--prefix=#{prefix}",
-                          "--mandir=#{man}",
-                          "--with-shared",
-                          "--enable-widec",
-                          "--with-manpage-format=normal"
+                          "--mandir=#{man}"
     system "make"
     system "make install"
   end
