@@ -1,6 +1,6 @@
 Linuxbrew
 =========
-An experimental fork of Homebrew for Linux.
+An experimental fork of Homebrew for Linux.Modefi by sennychu.
 
 Installation
 ------------
