@@ -29,16 +29,6 @@ module Homebrew extend self
     @clang_build ||= MacOS.clang_build_version
   end
 
-  def xcode
-    if instance_variable_defined?(:@xcode)
-      @xcode
-    elsif MacOS::Xcode.installed?
-      @xcode = MacOS::Xcode.version
-      @xcode += " => #{MacOS::Xcode.prefix}" unless MacOS::Xcode.default_prefix?
-      @xcode
-    end
-  end
-
   def clt
     if instance_variable_defined?(:@clt)
       @clt
