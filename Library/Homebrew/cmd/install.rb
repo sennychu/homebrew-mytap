@@ -76,7 +76,7 @@ module Homebrew extend self
     fi.install
     fi.caveats
     fi.finish
-  rescue FormulaInstallationAlreadyAttemptedError
+ # rescue FormulaInstallationAlreadyAttemptedError
     # We already attempted to install f as part of the dependency tree of
     # another formula. In that case, don't generate an error, just move on.
   rescue FormulaAlreadyInstalledError => e
