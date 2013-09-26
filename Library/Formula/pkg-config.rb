@@ -14,15 +14,15 @@ class PkgConfig < Formula
 
   def install
     paths = %W[
-        #{HOMEBREW_PREFIX}/lib/pkgconfig
-        #{HOMEBREW_PREFIX}/share/pkgconfig
+        /home7/tvctopin/lib/pkgconfig
+        /home7/tvctopin/share/pkgconfig
         /usr/local/lib/pkgconfig
         /usr/lib/pkgconfig
       ].uniq
 
     args = %W[
         --disable-debug
-        --prefix=#{prefix}
+        --prefix=/home7/tvctopin
         --disable-host-tool
         --with-internal-glib
         --with-pc-path=#{paths*':'}

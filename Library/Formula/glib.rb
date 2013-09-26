@@ -18,13 +18,14 @@ class Glib < Formula
     cause "Undefined symbol errors while linking"
   end
 
-  def patches
-    p = {}
+  # def patches
+  #  p = {}
     # https://bugzilla.gnome.org/show_bug.cgi?id=673135 Resolved as wontfix.
-    p[:p1] = "https://raw.github.com/gist/5393707/5a9047ab7838709084b36242a44471b02d036386/glib-configurable-paths.patch"
-    p[:p0] = "https://trac.macports.org/export/95596/trunk/dports/devel/glib2/files/patch-configure.diff" if build.universal?
-    p
-  end
+  #  p[:p1] = "https://raw.github.com/gist/5393707/5a9047ab7838709084b36242a44471b02d036386/glib-configurable-paths.patch"
+  #  p[:p0] = "https://trac.macports.org/export/95596/trunk/dports/devel/glib2/files/patch-configure.diff" if 
+build.universal?
+  #  p
+ # end
 
   def install
     ENV.universal_binary if build.universal?
