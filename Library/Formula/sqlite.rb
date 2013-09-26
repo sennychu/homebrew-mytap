@@ -26,8 +26,6 @@ class Sqlite < Formula
 
   depends_on 'readline' => :recommended
 
-  keg_only :provided_by_osx, "OS X provides an older sqlite3."
-
   def install
     ENV.append 'CPPFLAGS', "-DSQLITE_ENABLE_RTREE" unless build.without? "rtree"
     ENV.append 'CPPFLAGS', "-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS" if build.with? "fts"
