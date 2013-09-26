@@ -40,6 +40,7 @@ Useful Help:
 * [Tips n' Tricks](https://github.com/mxcl/homebrew/wiki/Tips-N%27-Tricks)
 * [Gems, Eggs and Perl Modules](https://github.com/mxcl/homebrew/wiki/Gems%2C-Eggs-and-Perl-Modules) and [Homebrew and Python](https://github.com/mxcl/homebrew/wiki/Homebrew-and-Python)
 * `brew help` or `man brew` or check the Homebrew [wiki](https://github.com/mxcl/homebrew/wiki).
+
 What Packages Are Available?
 ----------------------------
 1. You can [browse the Formula directory on GitHub](https://github.com/Homebrew/linuxbrew/tree/linuxbrew/Library/Formula).
