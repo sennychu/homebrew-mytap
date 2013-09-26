@@ -125,9 +125,9 @@ module Homebrew extend self
     puts "HEAD: #{head}"
     puts "HOMEBREW_PREFIX: #{HOMEBREW_PREFIX}"
     puts "HOMEBREW_CELLAR: #{HOMEBREW_CELLAR}"
+    puts "HOMEBREW_TEMP: #{HOMEBREW_TEMP}"
     puts hardware
     puts "OS X: #{MACOS_FULL_VERSION}-#{kernel}"
-    puts "Xcode: #{xcode}" if xcode
     puts "CLT: #{clt}" if clt
     puts "GCC-4.0: build #{gcc_40}" if gcc_40
     puts "GCC-4.2: build #{gcc_42}" if gcc_42
@@ -146,8 +146,6 @@ module Homebrew extend self
     print MACOS_FULL_VERSION
     print "-#{kernel}" if MacOS.version < :lion
     print ' '
-    print MacOS::Xcode.prefix unless MacOS::Xcode.default_prefix?
-    print "#{MacOS::Xcode.version}"
     print "-noclt" unless MacOS::CLT.installed?
     print " clang-#{clang_build} llvm-#{llvm} "
     print "#{MacOS::XQuartz.prefix}-#{MacOS::XQuartz.version}" if MacOS::XQuartz.prefix
