@@ -16,6 +16,23 @@ Installation
 
 * `brew install $WHATEVER_YOU_WANT`
 
+In short:
+---------
+* [Fork Homebrew](https://github.com/mxcl/homebrew/fork).
+
+ ```sh
+ brew create http://example.com/foo-0.1.tar.gz
+ git checkout -b foo
+ git commit Library/Formula/foo.rb && git push
+ ```
+ 
+* [Pull Request](https://github.com/mxcl/homebrew/pulls).
+
+In long:
+--------
+* [Formula Cookbook](https://github.com/mxcl/homebrew/wiki/Formula-Cookbook)
+* [Acceptable Formulae](https://github.com/mxcl/homebrew/wiki/Acceptable-Formulae)
+
 What Packages Are Available?
 ----------------------------
 1. You can [browse the Formula directory on GitHub](https://github.com/Homebrew/linuxbrew/tree/linuxbrew/Library/Formula).
@@ -23,9 +40,6 @@ What Packages Are Available?
 3. Or run `brew server` to browse packages off of a local web server.
 4. Or visit [braumeister](http://braumeister.org) to browse packages online.
 
-Requirement
------------
-* **Ruby** 1.8.6 or newer
 
 More Documentation
 ------------------
