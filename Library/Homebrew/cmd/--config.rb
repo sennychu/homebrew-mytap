@@ -130,11 +130,13 @@ module Homebrew extend self
   end
 
   def dump_verbose_config
+    puts "This linuxbrew Create By SennyChu." 
     puts "HOMEBREW_VERSION: #{HOMEBREW_VERSION}"
     puts "ORIGIN: #{origin}"
     puts "HEAD: #{head}"
     puts "HOMEBREW_PREFIX: #{HOMEBREW_PREFIX}"
     puts "HOMEBREW_CELLAR: #{HOMEBREW_CELLAR}"
+    puts "HOMEBREW_REPOSITORY: #{HOMEBREW_REPOSITORY}"
     puts hardware
     puts "OS X: #{MACOS_FULL_VERSION}-#{kernel}"
     # puts "Xcode: #{xcode}" if xcode
