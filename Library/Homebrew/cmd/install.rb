@@ -33,8 +33,7 @@ module Homebrew extend self
 
   def check_writable_install_location
     raise "Cannot write to #{HOMEBREW_CELLAR}" if HOMEBREW_CELLAR.exist? and not HOMEBREW_CELLAR.writable_real?
-    # raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real? or HOMEBREW_PREFIX.to_s == '/usr/local'
-    raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real?
+    raise "Cannot write to #{HOMEBREW_PREFIX}" unless HOMEBREW_PREFIX.writable_real? or HOMEBREW_PREFIX.to_s == '/home7/tvctopin'
   end
 
   def check_xcode
@@ -76,7 +75,7 @@ module Homebrew extend self
     fi.install
     fi.caveats
     fi.finish
- # rescue FormulaInstallationAlreadyAttemptedError
+  rescue FormulaInstallationAlreadyAttemptedError
     # We already attempted to install f as part of the dependency tree of
     # another formula. In that case, don't generate an error, just move on.
   rescue FormulaAlreadyInstalledError => e
