@@ -32,7 +32,7 @@ module Homebrew extend self
   def clt
     if instance_variable_defined?(:@clt)
       @clt
-    elsif MacOS::CLT.installed? && MacOS::Xcode.version.to_f >= 4.3
+    elsif MacOS::CLT.installed? >= 4.3
       @clt = MacOS::CLT.version
     end
   end
@@ -95,7 +95,6 @@ module Homebrew extend self
     puts "HOMEBREW_CELLAR: #{HOMEBREW_CELLAR}" if HOMEBREW_CELLAR.to_s != "#{HOMEBREW_PREFIX}/Cellar"
     puts hardware
     puts "OS X: #{MACOS_FULL_VERSION}-#{kernel}"
-    puts "Xcode: #{xcode}" if xcode
     puts "CLT: #{clt}" if clt
     puts "#{RUBY_PATH}:\n  #{RUBY_VERSION}-#{RUBY_PATCHLEVEL}" if RUBY_VERSION.to_f != 1.8
 
