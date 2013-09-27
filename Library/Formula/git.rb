@@ -49,8 +49,10 @@ class Git < Formula
     system "make", "prefix=#{prefix}",
                    "sysconfdir=#{etc}",
                    "CC=#{ENV.cc}",
-                   "CFLAGS=#{ENV.cflags}",
-                   "LDFLAGS=#{ENV.ldflags}",
+                   
+"CFLAGS=-I/home7/tvctopin/.linuxbrew/Cellar/libiconv/1.14/include",
+                   
+"LDFLAGS=-L/home7/tvctopin/.linuxbrew/Cellar/libiconv/1.14/lib",
                    "install"
 
     if MACOS

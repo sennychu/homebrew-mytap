@@ -6,12 +6,12 @@ class Mtools < Formula
   mirror 'ftp://ftp.gnu.org/gnu/mtools/mtools-4.0.17.tar.gz'
   sha1 'eebfab51148c4ab20a6aca3cea8057da5a11bdc8'
 
-  depends_on :x11
+ # depends_on :x11
 
   def install
-    system "./configure", "LIBS=-liconv",
-                          "--disable-debug",
-                          "--prefix=#{prefix}"
-    system "make install"
+    system "./configure", "--disable-xdf" 
+                         #  "LIBS=-L/home7/tvctopin/.linuxbrew/lib -Wl",
+                         #  "--prefix=#{prefix}"
+    system "make"
   end
 end

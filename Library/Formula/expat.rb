@@ -11,8 +11,4 @@ class Expat < Formula
                           "--mandir=#{man}"
     system "make install"
   end
-
-  def caveats
-    "Note that OS X has Expat 1.5 installed in /usr already."
-  end
 end

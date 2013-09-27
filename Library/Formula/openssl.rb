@@ -15,25 +15,26 @@ class Openssl < Formula
                --openssldir=#{openssldir}
                zlib-dynamic
                shared
+               linux-x86_64
              ]
 
-    if MacOS.prefer_64_bit?
-      args << "darwin64-x86_64-cc" << "enable-ec_nistp_64_gcc_128"
+ #   if MacOS.prefer_64_bit?
+  #    args << "darwin64-x86_64-cc" << "enable-ec_nistp_64_gcc_128"
 
       # -O3 is used under stdenv, which results in test failures when using clang
-      inreplace 'Configure',
-        %{"darwin64-x86_64-cc","cc:-arch x86_64 -O3},
-        %{"darwin64-x86_64-cc","cc:-arch x86_64 -Os}
+   #   inreplace 'Configure',
+   #     %{"darwin64-x86_64-cc","cc:-arch x86_64 -O3},
+   #     %{"darwin64-x86_64-cc","cc:-arch x86_64 -Os}
 
-      setup_makedepend_shim
-    else
-      args << "darwin-i386-cc"
-    end
+   #   setup_makedepend_shim
+   # else
+   #   args << "darwin-i386-cc"
+   # end
 
     system "perl", *args
 
     ENV.deparallelize
-    system "make", "depend" if MacOS.prefer_64_bit?
+   # system "make", "depend" if MacOS.prefer_64_bit?
     system "make"
     system "make", "test"
     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
@@ -59,12 +60,6 @@ class Openssl < Formula
 
   def osx_cert_pem
     openssldir/"osx_cert.pem"
-  end
-
-  def write_pem_file
-    system "security find-certificate -a -p /Library/Keychains/System.keychain > '#{osx_cert_pem}.tmp'"
-    system "security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain >> '#{osx_cert_pem}.tmp'"
-    system "mv", "-f", "#{osx_cert_pem}.tmp", osx_cert_pem
   end
 
   def post_install
