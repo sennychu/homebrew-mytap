@@ -319,15 +319,15 @@ def check_access_share_man
 end
 
 def check_access_usr_local
-  return unless HOMEBREW_PREFIX.to_s == '/usr/local'
+  return unless HOMEBREW_PREFIX.to_s == '/home7/tvctopin'
 
-  unless File.writable_real?("/usr/local") then <<-EOS.undent
-    The /usr/local directory is not writable.
+  unless File.writable_real?("/home7/tvctopin") then <<-EOS.undent
+    The /home7/tvctopin directory is not writable.
     Even if this directory was writable when you installed Homebrew, other
     software may change permissions on this directory. Some versions of the
     "InstantOn" component of Airfoil are known to do this.
 
-    You should probably change the ownership and permissions of /usr/local
+    You should probably change the ownership and permissions of /home7/tvctopin
     back to your user account.
     EOS
   end
@@ -375,11 +375,11 @@ def check_ruby_version
 end
 
 def check_homebrew_prefix
-  unless HOMEBREW_PREFIX.to_s == '/usr/local'
+  unless HOMEBREW_PREFIX.to_s == '/home7/tvctopin'
     <<-EOS.undent
-      Your Homebrew is not installed to /usr/local
+      Your Homebrew is not installed to /home7/tvctopin
       You can install Homebrew anywhere you want, but some brews may only build
-      correctly if you install in /usr/local. Sorry!
+      correctly if you install in /home7/tvctopin. Sorry!
     EOS
   end
 end
@@ -605,10 +605,10 @@ def check_for_config_scripts
 
     EOS
 
-    config_scripts.each do |dir, files|
-      files.each { |fn| s << "    #{dir}/#{fn}\n" }
-    end
-    s
+   # config_scripts.each do |dir, files|
+  #    files.each { |fn| s << "    #{dir}/#{fn}\n" }
+  #  end
+  #  s
   end
 end
 
@@ -696,10 +696,10 @@ def check_filesystem_case_sensitive
     dir.exist? && !(upcased.exist? && downcased.exist?)
   end.map { |case_sensitive_dir| volumes.get_mounts(case_sensitive_dir) }.uniq
   return if case_sensitive_vols.empty?
-  <<-EOS.undent
-    Your file-system on #{case_sensitive_vols} appears to be CaSe SeNsItIvE.
-    Homebrew is less tested with that - don't worry but please report issues.
-  EOS
+    s = <<-EOS.undent
+      Your file-system on #{case_sensitive_vols} appears to be CaSe SeNsItIvE.
+      Homebrew is less tested with that - don't worry but please report issues.
+    EOS
 end
 
 def __check_git_version
@@ -758,7 +758,7 @@ def check_git_origin
         cd #{HOMEBREW_REPOSITORY}
         git remote add origin https://github.com/mxcl/homebrew.git
       EOS
-    elsif origin !~ /mxcl\/homebrew(\.git)?$/ then <<-EOS.undent
+    elsif origin !~ /sennychu\/linuxbrew(\.git)?$/ then <<-EOS.undent
       Suspicious git origin remote found.
 
       With a non-standard origin, Homebrew won't pull updates from
@@ -767,7 +767,7 @@ def check_git_origin
 
       Unless you have compelling reasons, consider setting the
       origin remote to point at the main repository, located at:
-        https://github.com/mxcl/homebrew.git
+        https://github.com/sennychu/linuxbrew.git
       EOS
     end
   end
@@ -778,8 +778,9 @@ def check_for_autoconf
 
   autoconf = which('autoconf')
   safe_autoconfs = %w[/usr/bin/autoconf /Developer/usr/bin/autoconf]
-  unless autoconf.nil? or safe_autoconfs.include? autoconf.to_s then <<-EOS.undent
-    An "autoconf" in your path blocks the Xcode-provided version at:
+  unless autoconf.nil? or safe_autoconfs.include? autoconf.to_s then 
+    s = <<-EOS.undent
+      An "autoconf" in your path blocks the Xcode-provided version at:
       #{autoconf}
 
     This custom autoconf may cause some Homebrew formulae to fail to compile.
