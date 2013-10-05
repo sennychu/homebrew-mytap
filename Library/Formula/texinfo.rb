@@ -6,11 +6,6 @@ class Texinfo < Formula
   mirror 'http://ftp.gnu.org/gnu/texinfo/texinfo-5.1.tar.gz'
   sha1 '8b642aea2f5ba8a1ba4b15f438a47c1d15dcd214'
 
-  keg_only :provided_by_osx, <<-EOS.undent
-    Software that uses TeX, such as lilypond and octave, require a newer version
-    of these files.
-  EOS
-
   def install
     system "./configure", "--disable-dependency-tracking",
                           "--disable-install-warnings",

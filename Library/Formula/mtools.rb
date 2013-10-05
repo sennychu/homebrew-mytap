@@ -1,17 +1,13 @@
 require 'formula'
 
 class Mtools < Formula
-  homepage 'http://www.gnu.org/software/mtools/'
-  url 'ftp://ftpmirror.gnu.org/mtools/mtools-4.0.17.tar.gz'
-  mirror 'ftp://ftp.gnu.org/gnu/mtools/mtools-4.0.17.tar.gz'
-  sha1 'eebfab51148c4ab20a6aca3cea8057da5a11bdc8'
-
- # depends_on :x11
+  homepage 'http://ftp.gnu.org/gnu/mtools/'
+  url 'ftp://ftp.gnu.org/gnu/mtools/mtools-4.0.18.tar.gz'
+  sha1 'd703db71a409837a37db10a09ef63a35183f7565'
 
   def install
-    system "./configure", "--disable-xdf" 
-                         #  "LIBS=-L/home7/tvctopin/.linuxbrew/lib -Wl",
-                         #  "--prefix=#{prefix}"
-    system "make"
+    system "./configure", "--disable-debug", "--disable-dependency-tracking",
+                          "--prefix=#{prefix}"
+    system "make install" 
   end
 end
