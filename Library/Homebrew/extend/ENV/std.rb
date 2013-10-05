@@ -79,6 +79,10 @@ module Stdenv
     end
   end
 
+  def server_arch
+    append 'arch', "x86_64-linux-thread-multi"
+  end
+
   def determine_pkg_config_libdir
     paths = []
     paths << HOMEBREW_PREFIX/'lib/pkgconfig'
