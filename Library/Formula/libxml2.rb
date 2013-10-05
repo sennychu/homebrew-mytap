@@ -8,7 +8,7 @@ class Libxml2 < Formula
 
   head 'https://git.gnome.org/browse/libxml2', :using => :git
 
-  keg_only :provided_by_osx
+#  keg_only :provided_by_osx
 
   option :universal
 

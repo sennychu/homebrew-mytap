@@ -15,30 +15,28 @@ class DBus < Formula
                           "--sysconfdir=#{etc}",
                           "--disable-xml-docs",
                           "--disable-doxygen-docs",
-                          "--enable-launchd",
-                          "--with-launchd-agent-dir=#{prefix}",
+                         # "--enable-launchd",
+                         # "--with-launchd-agent-dir=#{prefix}",
                           "--without-x",
                           "--disable-tests"
     system "make"
     ENV.deparallelize
     system "make install"
 
-    (prefix+'org.freedesktop.dbus-session.plist').chmod 0644
-
     # Generate D-Bus's UUID for this machine
     system "#{bin}/dbus-uuidgen", "--ensure=#{var}/lib/dbus/machine-id"
   end
 
-  def caveats; <<-EOS.undent
-    If this is your first install, automatically load on login with:
-        mkdir -p ~/Library/LaunchAgents
-        cp #{prefix}/org.freedesktop.dbus-session.plist ~/Library/LaunchAgents/
-        launchctl load -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+ # def caveats; <<-EOS.undent
+  #  If this is your first install, automatically load on login with:
+   #     mkdir -p ~/Library/LaunchAgents
+    #    cp #{prefix}/org.freedesktop.dbus-session.plist ~/Library/LaunchAgents/
+     #   launchctl load -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
 
-    If this is an upgrade and you already have the org.freedesktop.dbus-session.plist loaded:
-        launchctl unload -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
-        cp #{prefix}/org.freedesktop.dbus-session.plist ~/Library/LaunchAgents/
-        launchctl load -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
-    EOS
-  end
+#    If this is an upgrade and you already have the org.freedesktop.dbus-session.plist loaded:
+#        launchctl unload -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+#        cp #{prefix}/org.freedesktop.dbus-session.plist ~/Library/LaunchAgents/
+#        launchctl load -w ~/Library/LaunchAgents/org.freedesktop.dbus-session.plist
+   # EOS
+#  end
 end

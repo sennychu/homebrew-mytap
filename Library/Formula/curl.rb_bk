@@ -2,8 +2,11 @@ require 'formula'
 
 class Curl < Formula
   homepage 'http://curl.haxx.se/'
-  url 'http://curl.haxx.se/download/curl-7.32.0.tar.gz'
-  sha256 'c979fe2200fdef4219c75087b08b34aa580606a3bf7fc512b2e6b1f79e6a4e7c'
+  url 'http://curl.haxx.se/download/curl-7.30.0.tar.gz'
+  sha256 '361669c3c4b9baa5343e7e83bce695e60683d0b97b402e664bbaed42c15e95a8'
+
+  keg_only :provided_by_osx,
+            "The libcurl provided by Leopard is too old for CouchDB to use."
 
   option 'with-ssh', 'Build with scp and sftp support'
   option 'with-libmetalink', 'Build with Metalink support'
@@ -29,11 +32,15 @@ class Curl < Formula
       --prefix=#{prefix}
     ]
 
-    args << "--with-ca-bundle=#{Formula.factory("curl-ca-bundle").opt_prefix}/share/ca-bundle.crt" if build.with? 'curl-ca-bundle'
+    args << 
+"--with-ca-bundle=#{Formula.factory("curl-ca-bundle").opt_prefix}/share/ca-bundle.crt" 
+if build.with? 'curl-ca-bundle'
     args << "--with-libssh2" if build.with? 'ssh'
     args << "--with-libmetalink" if build.with? 'libmetalink'
-    args << "--enable-ares=#{Formula.factory("c-ares").opt_prefix}" if build.with? 'ares'
-    args << "--with-ssl=#{Formula.factory("openssl").opt_prefix}" if build.with? 'ssl'
+    args << "--enable-ares=#{Formula.factory("c-ares").opt_prefix}" if build.with? 
+'ares'
+    args << "--with-ssl=#{Formula.factory("openssl").opt_prefix}" if build.with? 
+'ssl'
     args << "--with-darwinssl" if build.with? 'darwinssl'
     args << "--without-ssl" if build.with? 'gnutls' or build.with? 'polarssl'
     args << "--with-gnutls" if build.with? 'gnutls'
@@ -43,4 +50,3 @@ class Curl < Formula
     system "make install"
   end
 end
-

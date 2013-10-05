@@ -56,8 +56,7 @@ class Checks
   # Sets @found for your convenience.
   def find_relative_paths *relative_paths
     @found = %W[#{HOMEBREW_PREFIX} /usr/local].uniq.inject([]) do |found, prefix|
-      found + relative_paths.map{|f| File.join(prefix, f) }.select{|f| File.exist? f 
-}
+      found + relative_paths.map{|f| File.join(prefix, f) }.select{|f| File.exist? f }
     end
   end
 
@@ -417,10 +416,8 @@ def check_xcode_select_path
       You must unset it or builds will hang:
         sudo rm /usr/share/xcode-select/xcode_dir_*
     EOS
-  elsif not MacOS::CLT.installed? and not File.file? 
-"#{MacOS::Xcode.folder}/usr/bin/xcodebuild"
-    path = MacOS.app_with_bundle_id(MacOS::Xcode::V4_BUNDLE_ID) || 
-MacOS.app_with_bundle_id(MacOS::Xcode::V3_BUNDLE_ID)
+  elsif not MacOS::CLT.installed? and not File.file? "#{MacOS::Xcode.folder}/usr/bin/xcodebuild"
+    path = MacOS.app_with_bundle_id(MacOS::Xcode::V4_BUNDLE_ID) || MacOS.app_with_bundle_id(MacOS::Xcode::V3_BUNDLE_ID)
     path = '/Developer' if path.nil? or not path.directory?
     <<-EOS.undent
       Your Xcode is configured with an invalid path.
@@ -495,8 +492,7 @@ def check_user_path_3
 end
 
 def check_user_curlrc
-  if %w[CURL_HOME HOME].any?{|key| ENV[key] and File.exists? "#{ENV[key]}/.curlrc" } 
-then <<-EOS.undent
+  if %w[CURL_HOME HOME].any?{|key| ENV[key] and File.exists? "#{ENV[key]}/.curlrc" } then <<-EOS.undent
     You have a curlrc file
     If you have trouble downloading packages with Homebrew, then maybe this
     is the problem? If the following command doesn't work, then try removing
@@ -511,8 +507,7 @@ def check_which_pkg_config
   return if binary.nil?
 
   mono_config = Pathname.new("/usr/bin/pkg-config")
-  if mono_config.exist? && mono_config.realpath.to_s.include?("Mono.framework") then 
-<<-EOS.undent
+  if mono_config.exist? && mono_config.realpath.to_s.include?("Mono.framework") then <<-EOS.undent
     You have a non-Homebrew 'pkg-config' in your PATH:
       /usr/bin/pkg-config => #{mono_config.realpath}
 
@@ -585,8 +580,7 @@ def check_for_config_scripts
 
   config_scripts = []
 
-  whitelist = %W[/usr/bin /usr/sbin /usr/X11/bin /usr/X11R6/bin /opt/X11/bin 
-#{HOMEBREW_PREFIX}/bin #{HOMEBREW_PREFIX}/sbin]
+  whitelist = %W[/usr/bin /usr/sbin /usr/X11/bin /usr/X11R6/bin /opt/X11/bin #{HOMEBREW_PREFIX}/bin #{HOMEBREW_PREFIX}/sbin]
   whitelist.map! { |d| d.downcase }
 
   paths.each do |p|
@@ -599,18 +593,17 @@ def check_for_config_scripts
   end
 
   unless config_scripts.empty?
-    ss = 1
-   # s = <<-EOS.undent
-   #   "config" scripts exist outside your system or Homebrew directories.
-   #   `./configure` scripts often look for *-config scripts to determine if
-   #   software packages are installed, and what additional flags to use when
-   #   compiling and linking.
+    s = <<-EOS.undent
+      "config" scripts exist outside your system or Homebrew directories.
+      `./configure` scripts often look for *-config scripts to determine if
+      software packages are installed, and what additional flags to use when
+      compiling and linking.
 
-  #    Having additional scripts in your path can confuse software installed via
-  #    Homebrew if the config script overrides a system or Homebrew provided
-  #    script of the same name. We found the following "config" scripts:
+      Having additional scripts in your path can confuse software installed via
+      Homebrew if the config script overrides a system or Homebrew provided
+      script of the same name. We found the following "config" scripts:
 
- #   EOS
+    EOS
 
    # config_scripts.each do |dir, files|
   #    files.each { |fn| s << "    #{dir}/#{fn}\n" }
@@ -653,10 +646,8 @@ def check_for_symlinked_cellar
       (A) Have Cellar be a real directory inside of your HOMEBREW_PREFIX
       (B) Symlink "bin/brew" into your prefix, but don't symlink "Cellar".
 
-      Older installations of Homebrew may have created a symlinked Cellar, but this 
-can
-      cause problems when two formula install to locations that are mapped on top of 
-each
+      Older installations of Homebrew may have created a symlinked Cellar, but this can
+      cause problems when two formula install to locations that are mapped on top of each
       other during the linking step.
     EOS
   end
@@ -670,21 +661,29 @@ def check_for_multiple_volumes
   real_cellar = HOMEBREW_CELLAR.realpath
 
   tmp_prefix = ENV['HOMEBREW_TEMP'] || '/tmp'
-  tmp = Pathname.new `/usr/bin/mktemp -d 
-#{tmp_prefix}/homebrew-brew-doctor-XXXX`.strip
+  tmp = Pathname.new `/usr/bin/mktemp -d #{tmp_prefix}/homebrew-brew-doctor-XXXX`.strip
   real_temp = tmp.realpath.parent
 
   where_cellar = volumes.which real_cellar
   where_temp = volumes.which real_temp
 
-  Dir.delete tmp  
+  Dir.delete tmp
+
+  unless where_cellar == where_temp then <<-EOS.undent
+    Your Cellar and TEMP directories are on different volumes.
+    OS X won't move relative symlinks across volumes unless the target file already
+    exists. Brews known to be affected by this are Git and Narwhal.
+
+    You should set the "HOMEBREW_TEMP" environmental variable to a suitable
+    directory on the same volume as your Cellar.
+    EOS
+  end
 end
 
 def check_filesystem_case_sensitive
   volumes = Volumes.new
   tmp_prefix = Pathname.new(ENV['HOMEBREW_TEMP'] || '/tmp')
-  case_sensitive_vols = [HOMEBREW_PREFIX, HOMEBREW_REPOSITORY, HOMEBREW_CELLAR, 
-tmp_prefix].select do |dir|
+  case_sensitive_vols = [HOMEBREW_PREFIX, HOMEBREW_REPOSITORY, HOMEBREW_CELLAR, tmp_prefix].select do |dir|
     # We select the dir as being case-sensitive if either the UPCASED or the
     # downcased variant is missing.
     # Of course, on a case-insensitive fs, both exist because the os reports so.
@@ -696,6 +695,11 @@ tmp_prefix].select do |dir|
     downcased = Pathname.new(dir.to_s.downcase)
     dir.exist? && !(upcased.exist? && downcased.exist?)
   end.map { |case_sensitive_dir| volumes.get_mounts(case_sensitive_dir) }.uniq
+  return if case_sensitive_vols.empty?
+    s = <<-EOS.undent
+      Your file-system on #{case_sensitive_vols} appears to be CaSe SeNsItIvE.
+      Homebrew is less tested with that - don't worry but please report issues.
+    EOS
 end
 
 def __check_git_version
@@ -766,6 +770,21 @@ def check_git_origin
         https://github.com/sennychu/linuxbrew.git
       EOS
     end
+  end
+end
+
+def check_for_autoconf
+  return unless MacOS::Xcode.provides_autotools?
+
+  autoconf = which('autoconf')
+  safe_autoconfs = %w[/usr/bin/autoconf /Developer/usr/bin/autoconf]
+  unless autoconf.nil? or safe_autoconfs.include? autoconf.to_s then 
+    s = <<-EOS.undent
+      An "autoconf" in your path blocks the Xcode-provided version at:
+      #{autoconf}
+
+    This custom autoconf may cause some Homebrew formulae to fail to compile.
+    EOS
   end
 end
 
@@ -847,8 +866,7 @@ end
 
 def check_tmpdir
   tmpdir = ENV['TMPDIR']
-  "TMPDIR #{tmpdir.inspect} doesn't exist." unless tmpdir.nil? or File.directory? 
-tmpdir
+  "TMPDIR #{tmpdir.inspect} doesn't exist." unless tmpdir.nil? or File.directory? tmpdir
 end
 
 def check_missing_deps
@@ -924,8 +942,7 @@ def check_for_old_homebrew_share_python_in_path
       (or `easy_install`) into that directory above but now it can be removed
       from your PATH variable.
       Python scripts will now install into #{HOMEBREW_PREFIX}/bin.
-      You can delete anything, except 'Extras', from the 
-#{HOMEBREW_PREFIX}/share/python
+      You can delete anything, except 'Extras', from the #{HOMEBREW_PREFIX}/share/python
       (and #{HOMEBREW_PREFIX}/share/python3) dir and install affected Python packages
       anew with `pip install --upgrade`.
     EOS
@@ -976,8 +993,7 @@ def check_for_outdated_homebrew
   HOMEBREW_REPOSITORY.cd do
     if File.directory? ".git"
       local = `git rev-parse -q --verify refs/remotes/origin/master`.chomp
-      remote = /^([a-f0-9]{40})/.match(`git ls-remote origin refs/heads/master 
-2>/dev/null`)
+      remote = /^([a-f0-9]{40})/.match(`git ls-remote origin refs/heads/master 2>/dev/null`)
       if remote.nil? || local == remote[0]
         return
       end
@@ -1069,13 +1085,23 @@ module Homebrew extend self
 
     methods = if ARGV.named.empty?
       # put slowest methods last
-      checks.methods.sort << "check_for_linked_keg_only_brews" << 
-"check_for_outdated_homebrew"
+      checks.methods.sort << "check_for_linked_keg_only_brews" << "check_for_outdated_homebrew"
     else
       ARGV.named
     end.grep(/^check_/).reverse.uniq.reverse
 
     first_warning = true
+    methods.each do |method|
+      out = checks.send(method)
+      unless out.nil? or out.empty?
+        lines = out.to_s.split('\n')
+        puts unless first_warning
+        opoo lines.shift
+        Homebrew.failed = true
+        puts lines
+        first_warning = false
+      end
+    end
 
     puts "Your system is ready to brew." unless Homebrew.failed?
   end

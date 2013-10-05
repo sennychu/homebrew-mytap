@@ -14,8 +14,8 @@ class P11Kit < Formula
     ENV.universal_binary if build.universal?
     system "./configure", "--disable-debug",
                           "--disable-dependency-tracking",
-                          "--prefix=#{prefix}",
-                          "--disable-trust-module"
+                          "--prefix=#{prefix}"
+                         # "--disable-trust-module"
     system "make"
     system "make check"
     system "make install"

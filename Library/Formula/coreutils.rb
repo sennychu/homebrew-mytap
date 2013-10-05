@@ -9,9 +9,10 @@ class Coreutils < Formula
   depends_on 'xz' => :build
 
   def install
-    system "./configure", "--prefix=#{prefix}",
-                          "--program-prefix=g",
-                          "--without-gmp"
+    system "./configure", "--prefix=#{prefix}", "--build=x86_64-redhat-linux",
+                         # "CFLAGS=-arch x86_64-linux-thread-multi",
+                          "--program-prefix=g"
+                         # "--with-gmp=#{gmp4.opt_prefix}"  # "--without-gmp"
     system "make install"
 
     # Symlink all commands into libexec/gnubin without the 'g' prefix
@@ -49,3 +50,4 @@ class Coreutils < Formula
     filenames.sort
   end
 end
+
